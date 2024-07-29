@@ -9,7 +9,11 @@ export default defineEventHandler(async (event) => {
   );
 
   if (!buffer) {
-    throw new Error("File not found");
+    throw createError({
+      status: 500,
+      statusMessage: "File not found",
+      message: "File not found",
+    });
   }
 
   return new Uint8Array(buffer);
