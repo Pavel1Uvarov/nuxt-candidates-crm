@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
     resume_file =
       resume_file && resume_file instanceof File
-        ? await updateFile(resume_file, oldCandidate.resume_file, true)
+        ? await uploadFile(resume_file, oldCandidate.resume_file, true)
         : oldCandidate.resume_file;
 
     const updatedCandidate: ICandidate = {

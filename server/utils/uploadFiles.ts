@@ -1,6 +1,6 @@
 const runtimeConfig = useRuntimeConfig();
 
-export async function updateFile(
+export async function uploadFile(
   resume_file: File,
   oldFileName?: string,
   removePrevFile?: boolean

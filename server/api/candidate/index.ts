@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     let fileName = "";
 
     if (resume_file && resume_file instanceof File)
-      fileName = await updateFile(resume_file);
+      fileName = await uploadFile(resume_file);
 
     const newCandidate: ICandidate = {
       id: Date.now(),
