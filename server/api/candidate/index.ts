@@ -12,14 +12,8 @@ export default defineEventHandler(async (event) => {
     const { id, resume_file, ...candidate } = ICandidateSchema.parse(formData);
     let fileName = "";
 
-    if (resume_file && resume_file instanceof File) {
-      fileName = `${Date.now()}_${resume_file.name}`;
-
-      const arrayBuffer = await resume_file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      await useStorage(runtimeConfig.serverAssets).setItemRaw(fileName, buffer);
-    }
+    if (resume_file && resume_file instanceof File)
+      fileName = await updateFile(resume_file);
 
     const newCandidate: ICandidate = {
       id: Date.now(),

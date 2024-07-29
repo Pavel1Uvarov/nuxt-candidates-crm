@@ -2,7 +2,8 @@ const runtimeConfig = useRuntimeConfig();
 
 export async function updateFile(
   resume_file: File,
-  oldFileName: string
+  oldFileName?: string,
+  removePrevFile?: boolean
 ): Promise<string> {
   try {
     const fileName = `${Date.now()}_${resume_file.name}`;
@@ -10,9 +11,12 @@ export async function updateFile(
     const arrayBuffer = await resume_file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    await useStorage(runtimeConfig.serverAssets).removeItem(
-      decodeURIComponent(oldFileName)
-    );
+    if (removePrevFile && oldFileName) {
+      await useStorage(runtimeConfig.serverAssets).removeItem(
+        decodeURIComponent(oldFileName)
+      );
+    }
+
     await useStorage(runtimeConfig.serverAssets).setItemRaw(fileName, buffer);
 
     return fileName;
