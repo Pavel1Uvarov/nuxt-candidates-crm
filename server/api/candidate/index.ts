@@ -14,9 +14,11 @@ export default defineEventHandler(async (event) => {
 
     if (resume_file && resume_file instanceof File) {
       fileName = `${Date.now()}_${resume_file.name}`;
+
       const arrayBuffer = await resume_file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      await useStorage("assets:server").setItemRaw(fileName, buffer);
+
+      await useStorage(runtimeConfig.serverAssets).setItemRaw(fileName, buffer);
     }
 
     const newCandidate: ICandidate = {

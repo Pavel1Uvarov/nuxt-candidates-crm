@@ -11,13 +11,14 @@ const runtimeConfig = useRuntimeConfig();
 const updateFile = async (resume_file: File, oldFileName: string) => {
   try {
     const fileName = `${Date.now()}_${resume_file.name}`;
+
     const arrayBuffer = await resume_file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    await useStorage("assets:server").removeItem(
+    await useStorage(runtimeConfig.serverAssets).removeItem(
       decodeURIComponent(oldFileName)
     );
-    await useStorage("assets:server").setItemRaw(fileName, buffer);
+    await useStorage(runtimeConfig.serverAssets).setItemRaw(fileName, buffer);
 
     return fileName;
   } catch (error) {

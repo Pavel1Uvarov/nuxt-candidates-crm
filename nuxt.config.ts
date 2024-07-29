@@ -35,6 +35,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     dbStorage: 'data:database',
+    serverAssets: 'assets:server',
     public: {
       apiBase: "/api",
       maxFileSize: 2 * 1024 * 1024,
