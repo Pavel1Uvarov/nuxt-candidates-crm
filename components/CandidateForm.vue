@@ -80,8 +80,8 @@ watch(() => props.candidate, (newCandidate) => {
         <q-btn class="q-mt-md" label="Add Skill" @click="push('')" color="primary" flat />
       </FieldArray>
     </div>
-    <Field name="resume_file" v-slot="{ field, value, errorMessage }">
-      <q-file :model-value="value" v-bind="field" label="Resume File" :error="!!errorMessage"
+    <Field name="resume_file" v-slot="{ value, errorMessage, handleChange }">
+      <q-file :model-value="value" @update:modelValue="handleChange" label="Resume File" :error="!!errorMessage"
         :error-message="errorMessage" />
     </Field>
     <div v-if="showDownloadFile && values.resume_url">
