@@ -13,25 +13,23 @@ definePageMeta({
   }
 })
 
-const route = useRoute()
+const { params } = useRoute()
+const candidateId = Number(params.id)
 
-const candidateId = Number(route.params.id)
+const isSaving = ref<boolean>(false)
 
-const { getCandidate, updateCandidate, onError } = useCandidates()
-const { data, isError, suspense, error } = getCandidate(candidateId)
-const { mutate, isPending } = updateCandidate(candidateId)
+const { getCandidate, updateCandidate } = useCandidates()
+const { data } = await getCandidate(candidateId)
 
-const onSubmit = (candidate: ICandidate) => mutate(candidate)
-
-onServerPrefetch(async () => await suspense())
-
-watchEffect(() => {
-  if (isError.value && error.value?.message) onError(error.value)
-})
+const onSubmit = async (candidate: ICandidate) => {
+  isSaving.value = true
+  await updateCandidate(candidateId, candidate)
+  isSaving.value = false
+}
 </script>
 
 <template>
   <q-card class="q-pa-md">
-    <CandidateForm :candidate="data" @on-submit="onSubmit" :loading="isPending" />
+    <CandidateForm :candidate="data" @on-submit="onSubmit" :loading="isSaving" />
   </q-card>
 </template>

@@ -5,7 +5,9 @@ defineProps<{ title: string, showGoBackLink?: boolean }>()
 <template>
   <q-header elevated class="q-px-md">
     <q-toolbar>
-      <q-btn v-show="showGoBackLink" flat icon="arrow_back" to="/" aria-label="Back" />
+      <NuxtLink v-show="showGoBackLink" :to="{ name: 'index' }">
+        <q-icon name="arrow_back" size="md" color="white" />
+      </NuxtLink>
       <q-toolbar-title>
         {{ title }}
       </q-toolbar-title>

@@ -1,12 +1,7 @@
 import path from "path";
 
 export default defineNuxtConfig({
-  modules: [
-    "@pinia/nuxt",
-    "@vee-validate/nuxt",
-    "nuxt-quasar-ui",
-    "@hebilicious/vue-query-nuxt"
-  ],
+  modules: ["@pinia/nuxt", "@vee-validate/nuxt", "nuxt-quasar-ui"],
   devtools: { enabled: true },
 
   app: {
@@ -27,15 +22,15 @@ export default defineNuxtConfig({
   nitro: {
     devStorage: {
       db: {
-        driver: 'fs',
-        base: './data/db'
-      }
+        driver: "fs",
+        base: "./data/db",
+      },
     },
   },
 
   runtimeConfig: {
-    dbStorage: 'data:database',
-    serverAssets: 'assets:server',
+    dbStorage: "data:database",
+    serverAssets: "assets:server",
     public: {
       apiBase: "/api",
       maxFileSize: 2 * 1024 * 1024,

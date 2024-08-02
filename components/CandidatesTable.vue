@@ -28,9 +28,9 @@ const filter = ref<string>('')
       </template>
       <template #body-cell-actions="props">
         <q-td :props="props">
-          <q-btn :to="`/candidates/${props.row.id}`">
+          <NuxtLink :to="{ name: 'candidates-id', params: { id: props.row.id } }">
             Edit
-          </q-btn>
+          </NuxtLink>
         </q-td>
       </template>
     </q-table>

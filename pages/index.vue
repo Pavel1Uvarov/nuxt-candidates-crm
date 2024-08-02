@@ -1,17 +1,12 @@
 <script setup lang="ts">
+import type { ICandidate } from '~/types/candidate.interface';
+
 definePageMeta({
   title: 'Home'
 })
 
-const { getAll } = useCandidates()
-
-const { data, suspense, isError, error } = getAll()
-
-onServerPrefetch(async () => await suspense())
-
-watchEffect(() => {
-  if (isError.value && error.value) Notify.create(error.value?.message)
-})
+const { getAll } = useCandidates();
+const { data } = await getAll()
 </script>
 
 <template>

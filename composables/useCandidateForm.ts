@@ -33,7 +33,7 @@ const useCandidateForm = () => {
     github_url: string().url("Invalid URL").optional(),
   });
 
-  const { defineField, handleSubmit, resetForm } = useForm<ICandidateForm>({
+  const { values, handleSubmit, resetForm } = useForm<ICandidateForm>({
     validationSchema: schema,
     initialValues: {
       first_name: "",
@@ -47,7 +47,7 @@ const useCandidateForm = () => {
   });
 
   return {
-    defineField,
+    values,
     handleSubmit,
     resetForm,
   };

@@ -7,13 +7,18 @@ definePageMeta({
 })
 
 const { createCandidate } = useCandidates()
-const { mutate, isPending } = createCandidate()
 
-const onSubmit = (candidate: ICandidate) => mutate(candidate)
+const isSaving = ref<boolean>(false)
+
+const onSubmit = async (candidate: ICandidate) => {
+  isSaving.value = true
+  await createCandidate(candidate)
+  isSaving.value = false
+}
 </script>
 
 <template>
   <q-card class="q-pa-md">
-    <CandidateForm @on-submit="onSubmit" :loading="isPending" />
+    <CandidateForm @on-submit="onSubmit" :loading="isSaving" />
   </q-card>
 </template>

@@ -3,60 +3,58 @@ import {
   GET_CANDIDATE_BY_ID_KEY,
   GET_CANDIDATES_KEY,
   UPDATE_CANDIDATE_KEY,
-} from "~/consts/api";
+} from "~/constants/api";
 import type { ICandidate } from "~/types/candidate.interface";
 
 const useCandidates = () => {
   const runtimeConfig = useRuntimeConfig();
 
-  const getAll = () =>
-    useQuery<ICandidate[]>({
-      queryKey: [GET_CANDIDATES_KEY],
-      queryFn: () => $fetch(`${runtimeConfig.public.apiBase}/candidates`),
-      initialData: [] as ICandidate[],
-      staleTime: 0,
-    });
-
-  const getCandidate = (candidateId: number) =>
-    useQuery<ICandidate>({
-      queryKey: [GET_CANDIDATE_BY_ID_KEY, candidateId],
-      queryFn: () =>
-        $fetch(`${runtimeConfig.public.apiBase}/candidate/${candidateId}`),
-      retry: 0,
-    });
-
-  const createCandidate = () => {
-    return useMutation({
-      mutationKey: [CREATE_CANDIDATE_KEY],
-      mutationFn: (candidate: ICandidate) => {
-        const formData = prepareFormData(candidate);
-        return $fetch(`${runtimeConfig.public.apiBase}/candidate`, {
-          method: "POST",
-          body: formData,
-        });
+  const getAll = async () =>
+    await useFetch<ICandidate[]>(`${runtimeConfig.public.apiBase}/candidates`, {
+      key: GET_CANDIDATES_KEY,
+      default: () => [] as ICandidate[],
+      onRequestError({ error }) {
+        onError(error);
       },
-      onSuccess: () => onSuccess("Candidate was successfully created"),
-      onError: (err: Error) => onError(err),
     });
-  };
 
-  const updateCandidate = (candidateId: number) => {
-    return useMutation({
-      mutationKey: [UPDATE_CANDIDATE_KEY, candidateId],
-      mutationFn: (candidate: ICandidate) => {
-        const formData = prepareFormData(candidate);
-        return $fetch(
-          `${runtimeConfig.public.apiBase}/candidate/${candidateId}`,
-          {
-            method: "PUT",
-            body: formData,
-          }
-        );
+  const getCandidate = async (candidateId: number) =>
+    await useFetch<ICandidate>(
+      `${runtimeConfig.public.apiBase}/candidate/${candidateId}`,
+      {
+        key: `${GET_CANDIDATE_BY_ID_KEY}:${candidateId}`,
+        default: () => ({} as ICandidate),
+        onRequestError({ error }) {
+          onError(error);
+        },
+      }
+    );
+
+  const createCandidate = async (candidate: ICandidate) =>
+    await useFetch(`${runtimeConfig.public.apiBase}/candidate`, {
+      key: CREATE_CANDIDATE_KEY,
+      method: "POST",
+      body: prepareFormData(candidate),
+      onResponse() {
+        onSuccess("Candidate was successfully created");
       },
-      onSuccess: () => onSuccess("Candidate was successfully updated"),
-      onError: (err: Error) => onError(err),
+      onRequestError({ error }) {
+        onError(error);
+      },
     });
-  };
+
+  const updateCandidate = async (candidateId: number, candidate: ICandidate) =>
+    await useFetch(`${runtimeConfig.public.apiBase}/candidate/${candidateId}`, {
+      key: UPDATE_CANDIDATE_KEY,
+      method: "PUT",
+      body: prepareFormData(candidate),
+      onResponse() {
+        onSuccess("Candidate was successfully updated");
+      },
+      onRequestError({ error }) {
+        onError(error);
+      },
+    });
 
   const onSuccess = (message: string) => {
     Notify.create(message);
