@@ -1,5 +1,5 @@
 import { defineEventHandler, readFormData, createError } from "h3";
-import { ICandidate } from "~/types/candidate.interface";
+import { type ICandidate } from "~/types/candidate.interface";
 
 const runtimeConfig = useRuntimeConfig();
 

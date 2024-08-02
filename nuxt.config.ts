@@ -1,9 +1,8 @@
 import path from "path";
 
 export default defineNuxtConfig({
-  modules: ["@pinia/nuxt", "@vee-validate/nuxt", "nuxt-quasar-ui"],
+  modules: ["@pinia/nuxt", "@vee-validate/nuxt", "nuxt-quasar-ui", "@nuxt/eslint"],
   devtools: { enabled: true },
-
   app: {
     head: {
       title: "Candidates CRM",

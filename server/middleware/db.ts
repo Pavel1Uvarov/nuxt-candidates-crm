@@ -1,14 +1,14 @@
-import { ICandidate } from "~/types/candidate.interface";
+import { type ICandidate } from "~/types/candidate.interface";
 
 const runtimeConfig = useRuntimeConfig();
 
 export default defineEventHandler(async (event) => {
   const storage = useStorage(runtimeConfig.dbStorage);
-  let data = await storage.getItem<ICandidate[]>('data.json');
+  const data = await storage.getItem<ICandidate[]>("data.json");
 
   if (!data) {
-    await storage.setItem<ICandidate[]>('data.json', []);
+    await storage.setItem<ICandidate[]>("data.json", []);
   }
 
-  event.context.db = data;
+  event.context.db = data ?? ([] as ICandidate[]);
 });

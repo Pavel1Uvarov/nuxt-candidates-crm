@@ -12,6 +12,7 @@ useHead({
   <q-layout view="hHh lpR fFf">
     <PageHeader :title="title" :show-go-back-link="true" />
     <q-page-container class="q-pa-md">
+      <NuxtLoadingIndicator />
       <div class="row">
         <div class="col-3 q-mx-auto q-mt-lg">
           <slot />

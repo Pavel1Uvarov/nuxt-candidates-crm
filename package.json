@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/eslint": "^0.4.0",
     "@pinia/nuxt": "^0.5.2",
     "@quasar/extras": "^1.16.12",
     "@vee-validate/nuxt": "^4.13.2",
@@ -25,5 +26,9 @@
   },
   "overrides": {
     "vue": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vue-tsc": "^2.0.29"
   }
 }

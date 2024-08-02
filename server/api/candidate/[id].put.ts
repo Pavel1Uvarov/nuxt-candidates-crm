@@ -4,7 +4,7 @@ import {
   getRouterParams,
   readFormData,
 } from "h3";
-import { ICandidate } from "~/types/candidate.interface";
+import { type ICandidate } from "~/types/candidate.interface";
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -14,21 +14,29 @@ export default defineEventHandler(async (event) => {
 
   try {
     const formData = await readFormData(event);
-    let { id, resume_file, ...candidate } = ICandidateSchema.parse(formData);
+    const { resume_file, ...candidate } = ICandidateSchema.parse(formData);
     const oldCandidate = event.context.db.find(
       (c: ICandidate) => c.id === candidateId
     );
 
+    if (!oldCandidate) {
+      throw createError({
+        status: 404,
+        statusMessage: "Candidate not found",
+        message: "No candidate found with the given ID.",
+      });
+    }
+
     let db = event.context.db;
 
-    resume_file =
+    const updatedResumeFile =
       resume_file && resume_file instanceof File
         ? await uploadFile(resume_file, oldCandidate.resume_file, true)
         : oldCandidate.resume_file;
 
     const updatedCandidate: ICandidate = {
-      id: candidateId,
-      resume_file,
+      id: oldCandidate.id,
+      resume_file: updatedResumeFile,
       ...candidate,
     };
 
