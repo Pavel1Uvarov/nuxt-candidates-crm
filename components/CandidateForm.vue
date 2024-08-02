@@ -17,7 +17,6 @@ const showDownloadFile = ref<boolean>(false);
 
 const onSubmit = handleSubmit((values) => {
   const { resume_url, ...filteredValues } = values;
-  console.log(values);
 
   emit('onSubmit', {
     ...filteredValues,
